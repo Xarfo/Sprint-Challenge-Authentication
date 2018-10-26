@@ -25,3 +25,13 @@ function authenticate(req, res, next) {
     });
   }
 }
+
+// generate jwt token
+function generateToken(userId) {
+  
+	const jwtPayload = { userId };
+	const jwtOptions = {
+		expiresIn: '1d'
+	};
+ 	return jwt.sign(jwtPayload, jwtKey, jwtOptions);
+}

@@ -8,7 +8,20 @@ module.exports = server => {
   server.post('/api/register', register);
   server.post('/api/login', login);
   server.get('/api/jokes', authenticate, getJokes);
+  server.get('/api/users', getUsers);
 };
+
+function getUsers(req, res) {
+  //Get data
+  db('users')
+          .then(users => {
+              res.status(200).json(users);
+          })
+              .catch(err => {
+                  res.status(500).json(err);
+          });
+
+}
 
 
 function register(req, res) {
@@ -36,8 +49,9 @@ function register(req, res) {
 
 
 function login(req, res) {
-  // implement user login		
-  const credentials = req.body;
+  // implement user login	
+  const { username, password } = req.body;	
+  const credentials = { username, password };
 
  	db('users')
 		.where({ username: credentials.username })
